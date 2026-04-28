@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    demos.xml — Example scripts registered with the MATLAB Help browser.
+
+    When this file is present at the toolbox root alongside info.xml, MATLAB
+    displays the listed demos under  Help > Supplemental Software > MAT4200A.
+
+    Attribute reference for <demo>:
+      name    — human-readable title shown in the browser.
+      type    — "M-file" for plain .m scripts; use "livescript" for .mlx files.
+                If you have run examples/to_mlx.m, change every type to
+                "livescript" and update the src paths accordingly.
+      src     — path relative to this file, without the file extension.
+      image   — optional thumbnail PNG (e.g. from a saved figure).
+
+    Note on .mlx:
+      Run  examples/to_mlx.m  inside MATLAB once to convert all ex*.m
+      scripts to ex*.mlx.  Then change the type attributes below to
+      "livescript" and the src values to 'examples/ex01_basic_iv_sweep', etc.
+-->
+<demos
+    name="MAT4200A"
+    type="toolbox"
+    label="MAT4200A — Keithley 4200A-SCS"
+    helpdir="doc">
+
+    <demo
+        name="MOSFET Gate — Programmed SMU"
+        type="M-file"
+        src="examples/Mosfet_gate_programmed_SMU"
+        image=""
+        summary="MOSFET output characteristics using two SMUs: gate stepped, source swept."/>
+
+    <demo
+        name="MOSFET Gate — Programmed PMU"
+        type="M-file"
+        src="examples/Mosfet_gate_programmed_PMU"
+        image=""
+        summary="MOSFET output characteristics using two PMU-RPM channels in pulse mode."/>
+
+    <demo
+        name="MOSFET Gate — Real-Time SMU"
+        type="M-file"
+        src="examples/Mosfet_gate_realtime_SMU"
+        image=""
+        summary="MOSFET output characteristics measured point-by-point via RT_KI4200A User Mode."/>
+
+</demos>

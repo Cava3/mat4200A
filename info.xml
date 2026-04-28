@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    info.xml — MAT4200A Toolbox metadata for MATLAB Add-On Manager
+    and the Help browser ("Supplemental Software" panel).
+
+    To register the toolbox, open MATLAB and navigate to this folder,
+    or add it to the path. MATLAB will detect info.xml automatically.
+
+    Field notes:
+      matlabrelease  — minimum MATLAB release required (R2021b = first
+                       release with stable py.* interface + Live Scripts).
+      name           — display name in the Add-On Manager.
+      type           — must be "toolbox" for user-contributed toolboxes.
+      icon           — optional 32×32 PNG icon placed next to this file.
+      help_location  — folder containing HTML/docbook help (optional).
+-->
+<productinfo>
+    <matlabrelease>R2021b</matlabrelease>
+    <name>MAT4200A — Keithley 4200A-SCS MATLAB Toolbox</name>
+    <type>toolbox</type>
+    <icon>toolbox_icon.png</icon>
+    <help_location>doc</help_location>
+</productinfo>

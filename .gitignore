@@ -1,0 +1,41 @@
+# Claude Code local settings
+.claude/
+
+# MATLAB auto-save and backup files
+*.asv
+*.m~
+
+# MATLAB compiled extensions
+*.mex*
+*.mexa64
+*.mexglx
+*.mexmaci64
+*.mexw64
+
+# MATLAB code generation output
+codegen/
+slprj/
+
+# MATLAB packaged toolbox installer
+*.mltbx
+
+# MATLAB data and figures (uncomment if you want to exclude them)
+# *.mat
+# *.fig
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# IDEs
+.vscode/
+.idea/
