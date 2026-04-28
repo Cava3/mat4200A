@@ -6,29 +6,17 @@ Developed collaboratively with the University of Salamanca.
 
 ---
 
-## Architecture
-
-MAT4200A is a thin MATLAB wrapper that delegates all instrument communication to **py4200A** via MATLAB's built-in Python interface. Every class in the `+MAT4200A` package holds a private `pyobj` handle to the corresponding Python object and translates MATLAB types automatically on every call.
-
-```
-MATLAB code
-  └─ MAT4200A.KI4200A / MAT4200A.RT_KI4200A
-       └─ py4200A  (Python package)
-            └─ pyvisa / NI-VISA / linux-gpib
-                 └─ Keithley 4200A-SCS  (KXCI over GPIB or TCP/IP)
-```
-
----
-
 ## Requirements
 
-| Requirement | Version |
-|---|---|
-| MATLAB | R2021b or newer |
-| Python | 3.10 – 3.12 (3.13 not yet supported by MATLAB) |
-| py4200A | ≥ 0.2.2 |
+| Requirement | Version | Install |
+|---|---|---|
+| MATLAB | R2022b or newer | Official MATLAB website |
+| Python | 3.10 + | `winget install Python.Python.3.10` |
+| py4200A | ≥ 0.2.2 | Setup will prompt for install |
 
-`py4200A` is installed automatically by `setup.m` if it is not found. It brings in `pyvisa`, `numpy`, and `gpib-ctypes` as dependencies.
+`py4200A` is installed automatically by `setup.m` if it is not found. It brings in `pyvisa`, `numpy`, `pyvisa-py` and `gpib-ctypes` as dependencies.  
+
+You will also need a proper GPIB installation (NI-VISA + NI488.2) if you plan to use the GPIB communications.
 
 ---
 
@@ -53,13 +41,13 @@ pyenv('Version', 'C:\path\to\python3.11\python.exe')   % Windows
 % pyenv('Version', '/usr/bin/python3.11')               % Linux / macOS
 ```
 
-> Python 3.10–3.12 is required. On Windows, install 3.11 with:
+> Python 3.10+ is required. For example on Windows, install 3.11 with:
 > `winget install Python.Python.3.11`
 
 ### 3. Run `setup.m` once per MATLAB session
 
 ```matlab
-run('setup.m')
+setup;
 ```
 
 `setup.m` adds the toolbox to the MATLAB path, checks the Python version, and verifies that `py4200A` is importable. If `py4200A` is not installed it offers to install it via pip.
@@ -68,11 +56,8 @@ run('setup.m')
 
 ### Linux: GPIB permissions
 
-On Linux, GPIB access requires `linux-gpib`. Grant your user the necessary permissions without `sudo` by running the helper script bundled with py4200A:
-
-```bash
-bash /path/to/py4200A/AddUserPermissions.sh
-```
+On Linux, GPIB access requires `linux-gpib`. Grant your user the necessary permissions without `sudo` by running the helper script in the 
+[py4200A github repository](https://github.com/Cava3/Py4200A) named [AddUserPermissions.sh](https://github.com/Cava3/Py4200A/blob/main/AddUserPermissions.sh)
 
 ---
 
@@ -83,7 +68,8 @@ Before connecting from MATLAB:
 1. **Power on** the Keithley 4200A-SCS.
 2. **Close Clarius** (or any other software using the KXCI interface).
 3. **Open KCon** on the 4200A and select the correct communication mode (GPIB or TCP/IP).
-4. Ensure every board has a **unique channel number** in KCon.
+4. Ensure every board has a **unique channel number** corresponding to their slot in KCon.
+5. **Open KXCI** and wait for it to startup (~10 seconds)
 
 ---
 
@@ -271,9 +257,9 @@ All three scripts produce identical MOSFET output characteristic plots (I_source
 
 ---
 
-### Constants
+### Constants and enums
 
-All constants live in the `MAT4200A.consts` sub-package.
+All constants ans enums live in the `MAT4200A.consts` sub-package.
 
 | Enum | Values |
 |---|---|
@@ -294,28 +280,38 @@ All constants live in the `MAT4200A.consts` sub-package.
 
 ## Roadmap
 
-- [x] Connection management (GPIB / TCP/IP)
-- [x] SMU programmed sweep, step, list-sweep, and constant modes
-- [x] PMU/RPM pulse sweep and step modes
-- [x] Real-time SMU (User Mode)
-- [x] Result fetching and `Dependent` integration
-- [x] Display control (graph and list)
-- [ ] CVU (C-V measurements)
-- [ ] Full KXCI instruction dictionary
+- [x] Connection to KI4200A-SCS through PCIB or TCPIP
+- [x] Perform basic instruction to get Model and SN from KXCI
+- [x] Listing of all the boards available
+- [x] Correctly type the boards
+- [x] Send basic setting instructions to SMUs
+- [x] Allow test execution
+- [x] Basic result retrieval
+- [x] Analysis and plotting
+- [x] Publish on PyPi
+- [x] PMU RMP commands
+- [x] Matlab wrapper
+- [ ] Full instruction dictionnary capabilities
 
 ---
 
 ## Contributing
 
-Contributions are welcome. Please:
-
-- Follow the existing code style: properties first, then public methods, private helpers last.
-- Document every public method with a short comment block explaining arguments and return values.
-- Keep MATLAB–Python type conversions explicit (`char()`, `double()`, `logical()`, `int32()`).
-- Test against a real 4200A when possible, or at minimum verify the bridge conversions manually.
+If you are not a developer, or do not wish to publish code, feel free to open an issue. I will review
+and get to work on it as soon as possible. Please understand that it may take some time though, as I
+am currently the only maintainer and have other things to do in life.  
+Feel free to open pull request. I will review each one, making sure it is properly documented, properly
+commented, and really brings something to the table. Check existing file for documentation example.
+Typing and using PyLint in "strict" mode will also be required.  
+Garbage AI-generated spaghetti code (also know as "*vibe coding*") will be rejected. I have nothing against
+good and proper usage of AI tools though. Simply keep your code relevant and readable.
 
 ---
 
-## License
+## See also
 
-MIT — see [LICENSE](LICENSE).
+[py4200A](https://github.com/Cava3/Py4200A)
+[linux-gpib](https://github.com/coolshou/linux-gpib) - GPIB driver I'm using on my Linux (Ubuntu) laptop.  
+[PyVISA](https://pyvisa.readthedocs.io/en/latest/) - Python library to communicate with a device via most interfaces through VISA.  
+[PyVISA-py](https://pypi.org/project/PyVISA-py/) - Replaces proprietary VISA libraries with a python implementation.  
+[USAL](https://usal.es/) - The university that works on this project.  
