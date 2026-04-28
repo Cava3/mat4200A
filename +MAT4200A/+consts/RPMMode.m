@@ -25,7 +25,7 @@ classdef RPMMode < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python RPMMode enum as a MATLAB RPMMode.
-            mlEnum = MAT4200A.consts.RPMMode(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.RPMMode(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

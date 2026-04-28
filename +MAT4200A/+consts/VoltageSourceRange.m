@@ -32,7 +32,7 @@ classdef VoltageSourceRange < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python VoltageSourceRange enum as a MATLAB VoltageSourceRange.
-            mlEnum = MAT4200A.consts.VoltageSourceRange(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.VoltageSourceRange(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

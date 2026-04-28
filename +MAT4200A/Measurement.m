@@ -40,7 +40,7 @@ classdef Measurement < handle
         max_value
     end
 
-    properties (Access = private)
+    properties (Access = {?MAT4200A.KI4200A, ?MAT4200A.Display})
         pyobj   % underlying py4200A.results.Measurement instance
     end
 
@@ -108,7 +108,7 @@ classdef Measurement < handle
         % ------------------------------------------------------------------
         function s = toStr(obj)
         % toStr  Return a short human-readable description of this measurement.
-            s = char(obj.pyobj.__str__());
+            s = char(py.str(obj.pyobj));
         end
 
     end

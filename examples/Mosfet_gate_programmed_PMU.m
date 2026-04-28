@@ -24,7 +24,9 @@ ki4200.pmu_measure_mode = MAT4200A.consts.PMUMeasureMode.SPOT_MEAN_DISCRETE;
 
 %% Get the RPMs
 source = ki4200.getRPM(12);
+source.activated = true;
 gate   = ki4200.getRPM(11);
+gate.activated = true;
 
 %% Configure pulse times
 % Constraints: period 60 ns–1 s, width > 0.5*(riset+fallt), etc.

@@ -25,7 +25,7 @@ classdef SourceFunction < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python SourceFunction enum as a MATLAB SourceFunction.
-            mlEnum = MAT4200A.consts.SourceFunction(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.SourceFunction(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

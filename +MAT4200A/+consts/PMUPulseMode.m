@@ -29,7 +29,7 @@ classdef PMUPulseMode < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python PMUPulseMode enum as a MATLAB PMUPulseMode.
-            mlEnum = MAT4200A.consts.PMUPulseMode(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.PMUPulseMode(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

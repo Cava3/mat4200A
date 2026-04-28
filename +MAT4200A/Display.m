@@ -69,7 +69,7 @@ classdef Display < handle
     methods
 
         function v = get.display_mode(obj)
-            v = double(obj.pyobj.display_mode.value);
+            v = double(py.getattr(obj.pyobj.display_mode, 'value'));
         end
 
         function set.display_mode(obj, value)

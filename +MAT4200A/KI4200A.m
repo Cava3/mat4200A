@@ -126,6 +126,9 @@ classdef KI4200A < handle
         %
         %   The constructor scans the mainframe for equipped modules,
         %   populates l_smus, l_rpms, and id automatically.
+            if nargin == 0
+                return
+            end
             mod          = pyimport_('py4200A');
             obj.pyobj    = mod.KI4200A(char(instrument_resource_string));
             obj.syncState_();
@@ -311,7 +314,7 @@ classdef KI4200A < handle
     methods
 
         function v = get.status(obj)
-            v = char(obj.pyobj.status.value);
+            v = char(py.getattr(obj.pyobj.status, 'value'));
         end
 
         % ------------------------------------------------------------------
@@ -398,7 +401,8 @@ classdef KI4200A < handle
             obj.id                  = s;
 
             % Display controller
-            obj.display_ctrl        = MAT4200A.Display(inst.display);
+            % Use py.getattr to avoid conflict with MATLAB's built-in display() method
+            obj.display_ctrl        = MAT4200A.Display(py.getattr(inst, 'display'));
 
             % SMU list
             pySmus = cell(inst.l_smus);
@@ -424,7 +428,7 @@ classdef KI4200A < handle
         % ------------------------------------------------------------------
         function w = wrapBoard_(~, pyBoard)
         % wrapBoard_  Convert a Python board object to the appropriate MATLAB wrapper.
-            typeName = char(pyBoard.board_type.name);
+            typeName = char(py.getattr(pyBoard.board_type, 'name'));
             switch typeName
                 case 'SMU'
                     w = MAT4200A.SMU(pyBoard);

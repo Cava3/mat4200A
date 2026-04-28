@@ -30,7 +30,7 @@ classdef PMUMeasureMode < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python PMUMeasureMode enum as a MATLAB PMUMeasureMode.
-            mlEnum = MAT4200A.consts.PMUMeasureMode(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.PMUMeasureMode(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

@@ -48,7 +48,7 @@ classdef CurrentSourceRange < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python CurrentSourceRange enum as a MATLAB CurrentSourceRange.
-            mlEnum = MAT4200A.consts.CurrentSourceRange(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.CurrentSourceRange(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

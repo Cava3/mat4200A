@@ -24,7 +24,7 @@ classdef PMUSourceRange < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python PMUSourceRange enum as a MATLAB PMUSourceRange.
-            mlEnum = MAT4200A.consts.PMUSourceRange(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.PMUSourceRange(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

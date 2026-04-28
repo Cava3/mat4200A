@@ -25,7 +25,7 @@ classdef SweepType < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python SweepType enum as a MATLAB SweepType.
-            mlEnum = MAT4200A.consts.SweepType(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.SweepType(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

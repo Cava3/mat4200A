@@ -27,7 +27,7 @@ classdef SMUMode < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python SMUMode enum as a MATLAB SMUMode.
-            mlEnum = MAT4200A.consts.SMUMode(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.SMUMode(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

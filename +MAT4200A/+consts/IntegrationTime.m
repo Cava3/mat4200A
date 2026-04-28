@@ -26,7 +26,7 @@ classdef IntegrationTime < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python IntegrationTime enum as a MATLAB IntegrationTime.
-            mlEnum = MAT4200A.consts.IntegrationTime(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.IntegrationTime(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

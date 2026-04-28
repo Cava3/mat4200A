@@ -25,7 +25,7 @@ classdef BoardType < int32
 
         function mlEnum = fromPy(pyEnum)
         % FROMPY  Wrap a Python BoardType enum as a MATLAB BoardType.
-            mlEnum = MAT4200A.consts.BoardType(int32(pyEnum.value));
+            mlEnum = MAT4200A.consts.BoardType(int32(py.getattr(pyEnum, 'value')));
         end
     end
 end

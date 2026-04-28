@@ -13,7 +13,7 @@ function dep = pyBlob2Dependent_(pyBlob)
 %   Requires: Dependent class (from the Dependant toolbox) on the MATLAB path.
 
     % ── Data array ────────────────────────────────────────────────────────
-    data = pyNdArray2double_(pyBlob.value);
+    data = pyNdArray2double_(py.getattr(pyBlob, 'value'));
 
     % ── Parameter struct ──────────────────────────────────────────────────
     pyDep  = cell(pyBlob.dependency);          % py.list of name strings
