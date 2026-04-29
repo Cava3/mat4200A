@@ -32,7 +32,7 @@ for i = 1 : numel(vgt_values)
     gate.setVoltageOutput(vgt_values(i), 0.1);
     for j = 1 : numel(vsrc_values)
         source.setVoltageOutput(vsrc_values(j), 0.05);
-        results(i, j) = source.measure_current();
+        results(i, j) = source.measureCurrent();
     end
 end
 fprintf('Done. (%.1fs)\n', toc(t_start));

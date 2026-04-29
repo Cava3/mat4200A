@@ -130,8 +130,8 @@ rt = MAT4200A.RT_KI4200A('GPIB0::17::INSTR');
 smu = rt.getSMU(1);
 
 smu.setVoltageOutput(1.5, 0.01);    % 1.5 V, 10 mA compliance
-I = smu.measure_current();
-V = smu.measure_voltage();
+I = smu.measureCurrent();
+V = smu.measureVoltage();
 fprintf('V = %.4f V,  I = %.2e A\n', V, I);
 
 rt.disconnect();
@@ -209,7 +209,7 @@ All three scripts produce identical MOSFET output characteristic plots (I_source
 | `MAT4200A.SMU` | Source Measure Unit — voltage/current sweep, step, list-sweep, and constant. |
 | `MAT4200A.CVU` | Capacitance-Voltage Unit — detected automatically on scan. |
 | `MAT4200A.PMU_RPM` | PMU / Remote Pulse Measure channel — pulse timing, sweep, and step. |
-| `MAT4200A.RT_SMU` | Real-time SMU in User Mode — `setVoltageOutput`, `measure_current`, etc. |
+| `MAT4200A.RT_SMU` | Real-time SMU in User Mode — `setVoltageOutput`, `measureCurrent`, etc. |
 | `MAT4200A.RT_PMU_RPM` | Real-time RPM in User Mode — controls switching mode. |
 
 **`SMU` source configuration**
@@ -241,10 +241,10 @@ All three scripts produce identical MOSFET output characteristic plots (I_source
 |---|---|
 | `setVoltageOutput(V, compliance)` | `DV` — set voltage and compliance. |
 | `setCurrentOutput(I, compliance)` | `DI` — set current and compliance. |
-| `measure_voltage()` | `TV` — trigger and return voltage in volts. |
-| `measure_current()` | `TI` — trigger and return current in amperes. |
-| `set_current_range(range, compliance)` | `RI` — explicit current range. |
-| `set_voltage_range(range, compliance)` | `RV` — explicit voltage range. |
+| `measureVoltage()` | `TV` — trigger and return voltage in volts. |
+| `measureCurrent()` | `TI` — trigger and return current in amperes. |
+| `setCurrentRange(range, compliance)` | `RI` — explicit current range. |
+| `setVoltageRange(range, compliance)` | `RV` — explicit voltage range. |
 
 ---
 

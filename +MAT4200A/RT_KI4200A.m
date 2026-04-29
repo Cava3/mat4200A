@@ -12,8 +12,8 @@ classdef RT_KI4200A < handle
 %     rt = MAT4200A.RT_KI4200A('GPIB0::17::INSTR');
 %     smu = rt.getSMU(1);
 %     smu.setVoltageOutput(1.5, 0.01);
-%     V = smu.measure_voltage();
-%     I = smu.measure_current();
+%     V = smu.measureVoltage();
+%     I = smu.measureCurrent();
 %     rt.disconnect();
 %
 %   ── Instrument management ───────────────────────────────────────────────

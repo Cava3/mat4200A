@@ -16,16 +16,16 @@ classdef RT_SMU < handle
 %     setVoltageOutputForVS(voltage)
 %
 %   ── Measurement triggers ────────────────────────────────────────────────
-%     I = measure_current()   – trigger TI, return current in amperes.
-%     V = measure_voltage()   – trigger TV, return voltage in volts.
+%     I = measureCurrent()   – trigger TI, return current in amperes.
+%     V = measureVoltage()   – trigger TV, return voltage in volts.
 %
 %   ── Range and calibration ───────────────────────────────────────────────
-%     set_current_range(range_amps, compliance)
-%     set_voltage_range(range_volts, compliance)
-%     set_lowest_current_range(range_amps)
+%     setCurrentRange(range_amps, compliance)
+%     setVoltageRange(range_volts, compliance)
+%     setLowestCurrentRange(range_amps)
 %
 %   ── Data retrieval ──────────────────────────────────────────────────────
-%     val = get_timestamp_data(channel_name)
+%     val = getTimestampData(channel_name)
 %
 %   ── Properties ──────────────────────────────────────────────────────────
 %     slot  – SMU slot number (read-only).
@@ -110,18 +110,18 @@ classdef RT_SMU < handle
         %  Measurement triggers
         % ==================================================================
 
-        function I = measure_current(obj)
-        % measure_current  TI – Trigger an immediate current measurement.
+        function I = measureCurrent(obj)
+        % measureCurrent  TI – Trigger an immediate current measurement.
         %
-        %   I = measure_current()  returns current in amperes.
+        %   I = measureCurrent()  returns current in amperes.
             I = double(obj.pyobj.measure_current());
         end
 
         % ------------------------------------------------------------------
-        function V = measure_voltage(obj)
-        % measure_voltage  TV – Trigger an immediate voltage measurement.
+        function V = measureVoltage(obj)
+        % measureVoltage  TV – Trigger an immediate voltage measurement.
         %
-        %   V = measure_voltage()  returns voltage in volts.
+        %   V = measureVoltage()  returns voltage in volts.
             V = double(obj.pyobj.measure_voltage());
         end
 
@@ -129,26 +129,26 @@ classdef RT_SMU < handle
         %  Range and calibration
         % ==================================================================
 
-        function set_current_range(obj, range_amps, compliance)
-        % set_current_range  RI – Switch to a specific current measurement range.
+        function setCurrentRange(obj, range_amps, compliance)
+        % setCurrentRange  RI – Switch to a specific current measurement range.
         %
-        %   set_current_range(range_amps, compliance)
+        %   setCurrentRange(range_amps, compliance)
             obj.pyobj.set_current_range(double(range_amps), double(compliance));
         end
 
         % ------------------------------------------------------------------
-        function set_voltage_range(obj, range_volts, compliance)
-        % set_voltage_range  RV – Switch to a specific voltage measurement range.
+        function setVoltageRange(obj, range_volts, compliance)
+        % setVoltageRange  RV – Switch to a specific voltage measurement range.
         %
-        %   set_voltage_range(range_volts, compliance)
+        %   setVoltageRange(range_volts, compliance)
             obj.pyobj.set_voltage_range(double(range_volts), double(compliance));
         end
 
         % ------------------------------------------------------------------
-        function set_lowest_current_range(obj, range_amps)
-        % set_lowest_current_range  RG – Set the minimum autorange floor.
+        function setLowestCurrentRange(obj, range_amps)
+        % setLowestCurrentRange  RG – Set the minimum autorange floor.
         %
-        %   set_lowest_current_range(range_amps)
+        %   setLowestCurrentRange(range_amps)
         %
         %   range_amps – Minimum current range in amperes (e.g. 1e-9 for 1 nA).
             obj.pyobj.set_lowest_current_range(double(range_amps));
@@ -158,10 +158,10 @@ classdef RT_SMU < handle
         %  Data retrieval
         % ==================================================================
 
-        function val = get_timestamp_data(obj, channel_name)
-        % get_timestamp_data  DO – Retrieve timestamp or scalar for a named channel.
+        function val = getTimestampData(obj, channel_name)
+        % getTimestampData  DO – Retrieve timestamp or scalar for a named channel.
         %
-        %   val = get_timestamp_data(channel_name)
+        %   val = getTimestampData(channel_name)
         %
         %   channel_name – char label as set in DE/CH.
             val = double(obj.pyobj.get_timestamp_data(char(channel_name)));

@@ -7,7 +7,7 @@ classdef RT_PMU_RPM < handle
 %   automatically on construction.
 %
 %   Methods:
-%     set_mode(mode)  – Configure the RPM switching mode.
+%     setMode(mode)  – Configure the RPM switching mode.
 %
 %   Properties:
 %     name  – Board name as reported by the instrument (read-only).
@@ -31,10 +31,10 @@ classdef RT_PMU_RPM < handle
         end
 
         % ------------------------------------------------------------------
-        function set_mode(obj, mode)
-        % set_mode  Configure the RPM switching mode.
+        function setMode(obj, mode)
+        % setMode  Configure the RPM switching mode.
         %
-        %   set_mode(mode)
+        %   setMode(mode)
         %
         %   mode – MAT4200A.consts.RPMMode value.
         %          Use RPMMode.SMU to pass SMU signals through the RPM.
