@@ -100,6 +100,9 @@ classdef RT_KI4200A < handle
         %
         %   Returns a MAT4200A.RT_SMU handle.
         %   Raises an error if no SMU was found at that slot.
+            arguments (Output)
+                smu (1,1) MAT4200A.RT_SMU
+            end
             pyRTSMU = obj.pyobj.getSMU(int32(slot));
             smu     = MAT4200A.RT_SMU(pyRTSMU);
         end

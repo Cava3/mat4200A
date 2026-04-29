@@ -252,6 +252,9 @@ classdef KI4200A < handle
         %
         %   Returns a MAT4200A.SMU handle.
         %   Raises an error if no SMU was found at that slot.
+            arguments (Output)
+                smu (1,1) MAT4200A.SMU
+            end
             pySMU = obj.pyobj.getSMU(int32(slot));
             smu   = MAT4200A.SMU(pySMU);
         end
@@ -264,6 +267,9 @@ classdef KI4200A < handle
         %
         %   Slot numbering: PMU1RPM1-1 → slot 11, PMU1RPM1-2 → slot 12, etc.
         %   Returns a MAT4200A.PMU_RPM handle.
+            arguments (Output)
+                rpm (1,1) MAT4200A.PMU_RPM
+            end
             pyRPM = obj.pyobj.getRPM(int32(slot));
             rpm   = MAT4200A.PMU_RPM(pyRPM);
         end

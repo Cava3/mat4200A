@@ -15,7 +15,7 @@
       help_location  — folder containing HTML/docbook help (optional).
 -->
 <productinfo>
-    <matlabrelease>R2021b</matlabrelease>
+    <matlabrelease>R2022b</matlabrelease>
     <name>MAT4200A — Keithley 4200A-SCS MATLAB Toolbox</name>
     <type>toolbox</type>
     <icon>toolbox_icon.png</icon>
