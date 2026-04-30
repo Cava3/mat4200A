@@ -56,6 +56,9 @@ classdef RT_SMU < handle
         % ------------------------------------------------------------------
         function deactivate(obj)
         % deactivate  Reset this SMU channel (DV command).
+            arguments
+                obj (1,1) MAT4200A.RT_SMU
+            end
             obj.pyobj.deactivate();
         end
 
@@ -72,11 +75,13 @@ classdef RT_SMU < handle
         %   output     – Output current in amperes.
         %   compliance – Voltage compliance in volts.
         %   range_code – MAT4200A.consts.CurrentSourceRange (default AUTORANGE).
-            if nargin < 4
-                range_code = MAT4200A.consts.CurrentSourceRange.AUTORANGE;
+            arguments
+                obj        (1,1) MAT4200A.RT_SMU
+                output     (1,1) double
+                compliance (1,1) double
+                range_code (1,1) MAT4200A.consts.CurrentSourceRange = MAT4200A.consts.CurrentSourceRange.AUTORANGE
             end
-            pyRange = MAT4200A.consts.CurrentSourceRange.toPy(range_code);
-            obj.pyobj.setCurrentOutput(double(output), double(compliance), pyRange);
+            obj.pyobj.setCurrentOutput(double(output), double(compliance), MAT4200A.consts.CurrentSourceRange.toPy(range_code));
         end
 
         % ------------------------------------------------------------------
@@ -89,11 +94,13 @@ classdef RT_SMU < handle
         %   output     – Output voltage in volts (clamped to ±200 V).
         %   compliance – Current compliance in amperes.
         %   range_code – MAT4200A.consts.VoltageSourceRange (default AUTORANGE).
-            if nargin < 4
-                range_code = MAT4200A.consts.VoltageSourceRange.AUTORANGE;
+            arguments
+                obj        (1,1) MAT4200A.RT_SMU
+                output     (1,1) double
+                compliance (1,1) double
+                range_code (1,1) MAT4200A.consts.VoltageSourceRange = MAT4200A.consts.VoltageSourceRange.AUTORANGE
             end
-            pyRange = MAT4200A.consts.VoltageSourceRange.toPy(range_code);
-            obj.pyobj.setVoltageOutput(double(output), double(compliance), pyRange);
+            obj.pyobj.setVoltageOutput(double(output), double(compliance), MAT4200A.consts.VoltageSourceRange.toPy(range_code));
         end
 
         % ------------------------------------------------------------------
@@ -103,6 +110,10 @@ classdef RT_SMU < handle
         %   setVoltageOutputForVS(voltage)
         %
         %   voltage – Target voltage in volts (clamped to ±200 V).
+            arguments
+                obj     (1,1) MAT4200A.RT_SMU
+                voltage (1,1) double
+            end
             obj.pyobj.setVoltageOutputForVS(double(voltage));
         end
 
@@ -114,6 +125,9 @@ classdef RT_SMU < handle
         % measureCurrent  TI – Trigger an immediate current measurement.
         %
         %   I = measureCurrent()  returns current in amperes.
+            arguments
+                obj (1,1) MAT4200A.RT_SMU
+            end
             I = double(obj.pyobj.measure_current());
         end
 
@@ -122,6 +136,9 @@ classdef RT_SMU < handle
         % measureVoltage  TV – Trigger an immediate voltage measurement.
         %
         %   V = measureVoltage()  returns voltage in volts.
+            arguments
+                obj (1,1) MAT4200A.RT_SMU
+            end
             V = double(obj.pyobj.measure_voltage());
         end
 
@@ -133,6 +150,11 @@ classdef RT_SMU < handle
         % setCurrentRange  RI – Switch to a specific current measurement range.
         %
         %   setCurrentRange(range_amps, compliance)
+            arguments
+                obj        (1,1) MAT4200A.RT_SMU
+                range_amps (1,1) double
+                compliance (1,1) double
+            end
             obj.pyobj.set_current_range(double(range_amps), double(compliance));
         end
 
@@ -141,6 +163,11 @@ classdef RT_SMU < handle
         % setVoltageRange  RV – Switch to a specific voltage measurement range.
         %
         %   setVoltageRange(range_volts, compliance)
+            arguments
+                obj        (1,1) MAT4200A.RT_SMU
+                range_volts (1,1) double
+                compliance  (1,1) double
+            end
             obj.pyobj.set_voltage_range(double(range_volts), double(compliance));
         end
 
@@ -151,6 +178,10 @@ classdef RT_SMU < handle
         %   setLowestCurrentRange(range_amps)
         %
         %   range_amps – Minimum current range in amperes (e.g. 1e-9 for 1 nA).
+            arguments
+                obj        (1,1) MAT4200A.RT_SMU
+                range_amps (1,1) double
+            end
             obj.pyobj.set_lowest_current_range(double(range_amps));
         end
 
@@ -164,6 +195,10 @@ classdef RT_SMU < handle
         %   val = getTimestampData(channel_name)
         %
         %   channel_name – char label as set in DE/CH.
+            arguments
+                obj          (1,1) MAT4200A.RT_SMU
+                channel_name (1,:) char
+            end
             val = double(obj.pyobj.get_timestamp_data(char(channel_name)));
         end
 

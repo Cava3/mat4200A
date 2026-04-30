@@ -43,9 +43,7 @@ colors = {'red', 'green', 'blue', 'magenta', 'yellow', 'cyan'};
 figure;
 hold on;
 for i = 1 : numel(vgt_values)
-    plot(vsrc_values, results(i, :), ...
-        'Color', colors{mod(i-1, numel(colors)) + 1}, ...
-        'DisplayName', sprintf('Gate = %.2f V', vgt_values(i)));
+    plot(vsrc_values, results(i, :), 'Color', colors{mod(i-1, numel(colors)) + 1}, 'DisplayName', sprintf('Gate = %.2f V', vgt_values(i)));
 end
 hold off;
 xlabel('Vsource (V)');

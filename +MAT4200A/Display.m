@@ -40,6 +40,10 @@ classdef Display < handle
         %
         %   displayList(measurement_names) where measurement_names is a
         %   cell array of char / string measurement labels, e.g. {'VGS','IDS'}.
+            arguments
+                obj              (1,1) MAT4200A.Display
+                measurement_names
+            end
             if ~iscell(measurement_names)
                 measurement_names = {measurement_names};
             end
@@ -56,7 +60,13 @@ classdef Display < handle
         %
         %   x, y1, y2 must be MAT4200A.Measurement objects.
         %   Use a Measurement with name='T' for the time axis.
-            if nargin < 4 || isempty(y2)
+            arguments
+                obj (1,1) MAT4200A.Display
+                x   (1,1) MAT4200A.Measurement
+                y1  (1,1) MAT4200A.Measurement
+                y2             MAT4200A.Measurement = MAT4200A.Measurement.empty()
+            end
+            if isempty(y2)
                 obj.pyobj.displayGraph(x.pyobj, y1.pyobj);
             else
                 obj.pyobj.displayGraph(x.pyobj, y1.pyobj, y2.pyobj);

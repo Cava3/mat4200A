@@ -130,6 +130,9 @@ classdef SMU < handle
 
         function deactivate(obj)
         % deactivate  Reset / power off this SMU channel (DE + CH command).
+            arguments
+                obj (1,1) MAT4200A.SMU
+            end
             obj.pyobj.deactivate();
         end
 
@@ -143,11 +146,11 @@ classdef SMU < handle
         %   voltage_measure_name (optional) – KXCI label for the voltage
         %   measurement (max 6 uppercase alphanumeric chars).  Defaults to
         %   the current measurement name.
-            if nargin < 2
-                obj.pyobj.setupVoltmeter();
-            else
-                obj.pyobj.setupVoltmeter(char(voltage_measure_name));
+            arguments
+                obj                  (1,1) MAT4200A.SMU
+                voltage_measure_name (1,:) char = ''
             end
+            obj.pyobj.setupVoltmeter(char(voltage_measure_name));
             obj.v_meas_cache = MAT4200A.Measurement(obj.pyobj.voltage_measurement);
         end
 
@@ -160,19 +163,17 @@ classdef SMU < handle
         %   setupVoltageSource(voltage_measure_name, source_function)
         %
         %   source_function – MAT4200A.consts.SourceFunction value.
-            if nargin < 2, voltage_measure_name = ''; end
-            if nargin < 3 || isempty(source_function)
-                obj.pyobj.setupVoltageSource(char(voltage_measure_name));
-            else
-                pyFn = MAT4200A.consts.SourceFunction.toPy(source_function);
-                obj.pyobj.setupVoltageSource(char(voltage_measure_name), pyFn);
+            arguments
+                obj                  (1,1) MAT4200A.SMU
+                voltage_measure_name (1,:) char                          = ''
+                source_function      (1,1) MAT4200A.consts.SourceFunction = MAT4200A.consts.SourceFunction.NONE
             end
+            obj.pyobj.setupVoltageSource(char(voltage_measure_name), MAT4200A.consts.SourceFunction.toPy(source_function));
             obj.v_meas_cache = MAT4200A.Measurement(obj.pyobj.voltage_measurement);
         end
 
         % ------------------------------------------------------------------
-        function setupSMU(obj, voltage_measure_name, current_measure_name, ...
-                          source_type, source_function)
+        function setupSMU(obj, voltage_measure_name, current_measure_name, source_type, source_function)
         % setupSMU  Configure this SMU as a full source-measure unit.
         %
         %   setupSMU(v_name, i_name, source_type, source_function)
@@ -183,23 +184,15 @@ classdef SMU < handle
         %     i_name         – char label for the current measurement.
         %     source_type    – MAT4200A.consts.SourceType.
         %     source_function– MAT4200A.consts.SourceFunction.
-            if nargin < 2, voltage_measure_name  = ''; end
-            if nargin < 3, current_measure_name  = ''; end
-
-            if nargin < 4 || isempty(source_type)
-                pyST = pyimport_('py4200A.src.consts').SourceType(int32(0));
-            else
-                pyST = MAT4200A.consts.SourceType.toPy(source_type);
+            arguments
+                obj                  (1,1) MAT4200A.SMU
+                voltage_measure_name (1,:) char                           = ''
+                current_measure_name (1,:) char                           = ''
+                source_type          (1,1) MAT4200A.consts.SourceType     = MAT4200A.consts.SourceType.NONE
+                source_function      (1,1) MAT4200A.consts.SourceFunction = MAT4200A.consts.SourceFunction.NONE
             end
-
-            if nargin < 5 || isempty(source_function)
-                pySF = pyimport_('py4200A.src.consts').SourceFunction(int32(0));
-            else
-                pySF = MAT4200A.consts.SourceFunction.toPy(source_function);
-            end
-
-            obj.pyobj.setupSMU(char(voltage_measure_name), ...
-                               char(current_measure_name), pyST, pySF);
+            obj.pyobj.setupSMU(char(voltage_measure_name), char(current_measure_name), ...
+                MAT4200A.consts.SourceType.toPy(source_type), MAT4200A.consts.SourceFunction.toPy(source_function));
             % Refresh measurement wrappers (names may have changed)
             obj.v_meas_cache = MAT4200A.Measurement(obj.pyobj.voltage_measurement);
             obj.i_meas_cache = MAT4200A.Measurement(obj.pyobj.current_measurement);
@@ -215,8 +208,11 @@ classdef SMU < handle
         %   setConstantSourceValue()
         %   setConstantSourceValue(value)
         %   setConstantSourceValue(value, compliance)
-            if nargin < 2, value      = 0.0; end
-            if nargin < 3, compliance = 0.0; end
+            arguments
+                obj        (1,1) MAT4200A.SMU
+                value      (1,1) double = 0.0
+                compliance (1,1) double = 0.0
+            end
             obj.pyobj.setConstantSourceValue(double(value), double(compliance));
         end
 
@@ -229,16 +225,15 @@ classdef SMU < handle
         %
         %   sweep_type – MAT4200A.consts.SweepType (default: LINEAR).
         %   Limits: max 1024 steps.
-            if nargin < 2 || isempty(sweep_type)
-                sweep_type = MAT4200A.consts.SweepType.LINEAR;
+            arguments
+                obj        (1,1) MAT4200A.SMU
+                sweep_type (1,1) MAT4200A.consts.SweepType = MAT4200A.consts.SweepType.LINEAR
+                start      (1,1) double = 0.0
+                stop       (1,1) double = 0.0
+                step       (1,1) double = 0.0
+                compliance (1,1) double = 0.0
             end
-            if nargin < 3, start      = 0.0; end
-            if nargin < 4, stop       = 0.0; end
-            if nargin < 5, step       = 0.0; end
-            if nargin < 6, compliance = 0.0; end
-            pyST = MAT4200A.consts.SweepType.toPy(sweep_type);
-            obj.pyobj.setSweepFunction(pyST, double(start), double(stop), ...
-                                       double(step), double(compliance));
+            obj.pyobj.setSweepFunction(MAT4200A.consts.SweepType.toPy(sweep_type), double(start), double(stop), double(step), double(compliance));
         end
 
         % ------------------------------------------------------------------
@@ -250,12 +245,14 @@ classdef SMU < handle
         %
         %   The number of steps is computed automatically as
         %   floor(|stop-start|/step) + 1.  Maximum 32 steps.
-            if nargin < 2, start      = 0.0; end
-            if nargin < 3, stop       = 0.0; end
-            if nargin < 4, step       = 0.0; end
-            if nargin < 5, compliance = 0.0; end
-            obj.pyobj.setStepFunction(double(start), double(stop), ...
-                                      double(step), double(compliance));
+            arguments
+                obj        (1,1) MAT4200A.SMU
+                start      (1,1) double = 0.0
+                stop       (1,1) double = 0.0
+                step       (1,1) double = 0.0
+                compliance (1,1) double = 0.0
+            end
+            obj.pyobj.setStepFunction(double(start), double(stop), double(step), double(compliance));
         end
 
         % ------------------------------------------------------------------
@@ -266,12 +263,14 @@ classdef SMU < handle
         %   setStepFunction2(start, step, num_steps, compliance)
         %
         %   Maximum 32 steps.
-            if nargin < 2, start      = 0.0; end
-            if nargin < 3, step       = 0.0; end
-            if nargin < 4, num_steps  = 0;   end
-            if nargin < 5, compliance = 0.0; end
-            obj.pyobj.setStepFunction2(double(start), double(step), ...
-                                       int32(num_steps), double(compliance));
+            arguments
+                obj        (1,1) MAT4200A.SMU
+                start      (1,1) double = 0.0
+                step       (1,1) double = 0.0
+                num_steps  (1,1) double = 0
+                compliance (1,1) double = 0.0
+            end
+            obj.pyobj.setStepFunction2(double(start), double(step), int32(num_steps), double(compliance));
         end
 
         % ------------------------------------------------------------------
@@ -286,8 +285,12 @@ classdef SMU < handle
         %   compliance – compliance limit (default 0, keeps current value).
         %   master     – logical; true if this channel triggers the other
         %                synchronized list channels (default false).
-            if nargin < 3, compliance = 0.0;   end
-            if nargin < 4, master     = false;  end
+            arguments
+                obj        (1,1) MAT4200A.SMU
+                values     (1,:) double
+                compliance (1,1) double  = 0.0
+                master     (1,1) logical = false
+            end
             pyVals = py.list(num2cell(double(values)));
             obj.pyobj.setListSweep(pyVals, double(compliance), logical(master));
         end

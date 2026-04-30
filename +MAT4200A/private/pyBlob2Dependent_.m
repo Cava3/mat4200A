@@ -28,8 +28,5 @@ function dep = pyBlob2Dependent_(pyBlob)
     end
 
     % ── Build Dependent ───────────────────────────────────────────────────
-    dep = Dependent(data, ...
-                    Parameters = params, ...
-                    Label      = string(char(pyBlob.label)), ...
-                    Log        = string(char(pyBlob.log)));
+    dep = Dependent(data, Parameters = params, Label = string(char(pyBlob.label)), Log = string(char(pyBlob.log)));
 end

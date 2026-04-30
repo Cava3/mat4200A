@@ -101,6 +101,9 @@ classdef PMU_RPM < handle
 
         function deactivate(obj)
         % deactivate  Disable this PMU channel output.
+            arguments
+                obj (1,1) MAT4200A.PMU_RPM
+            end
             obj.pyobj.deactivate();
         end
 
@@ -113,6 +116,11 @@ classdef PMU_RPM < handle
         %   acquire_high – logical; enable VH/IH measurement.
         %   acquire_low  – logical; enable VL/IL measurement.
         %   At least one must be true.
+            arguments
+                obj          (1,1) MAT4200A.PMU_RPM
+                acquire_high (1,1) logical
+                acquire_low  (1,1) logical
+            end
             obj.pyobj.setMeasurePIV(logical(acquire_high), logical(acquire_low));
         end
 
@@ -129,14 +137,15 @@ classdef PMU_RPM < handle
         %   riset  : 20 ns – 33 ms.
         %   fallt  : 20 ns – 33 ms.
         %   delay  : 0 or ≥ 20 ns; < period − width − 0.5*(riset+fallt).
-            if nargin < 6
-                obj.pyobj.setPulseTimes(double(period), double(width), ...
-                                        double(riset),  double(fallt));
-            else
-                obj.pyobj.setPulseTimes(double(period), double(width), ...
-                                        double(riset),  double(fallt), ...
-                                        double(delay));
+            arguments
+                obj    (1,1) MAT4200A.PMU_RPM
+                period (1,1) double
+                width  (1,1) double
+                riset  (1,1) double
+                fallt  (1,1) double
+                delay  (1,1) double = 0.0
             end
+            obj.pyobj.setPulseTimes(double(period), double(width), double(riset), double(fallt), double(delay));
         end
 
         % ------------------------------------------------------------------
@@ -146,6 +155,11 @@ classdef PMU_RPM < handle
         %   setPulseTrain(vbase, vamplitude)
         %
         %   |vamplitude - vbase| must not exceed 10 V.
+            arguments
+                obj        (1,1) MAT4200A.PMU_RPM
+                vbase      (1,1) double
+                vamplitude (1,1) double
+            end
             obj.pyobj.setPulseTrain(double(vbase), double(vamplitude));
         end
 
@@ -159,14 +173,15 @@ classdef PMU_RPM < handle
         %   mode      – MAT4200A.consts.PMUPulseMode.
         %   start/stop/step – voltages in volts; step must not be 0.
         %   constant_v – required when mode is AMPLITUDE or BASE.
-            pyMode = MAT4200A.consts.PMUPulseMode.toPy(mode);
-            if nargin < 6
-                obj.pyobj.setPulseStep(pyMode, double(start), double(stop), ...
-                                       double(step));
-            else
-                obj.pyobj.setPulseStep(pyMode, double(start), double(stop), ...
-                                       double(step), double(constant_v));
+            arguments
+                obj        (1,1) MAT4200A.PMU_RPM
+                mode       (1,1) MAT4200A.consts.PMUPulseMode
+                start      (1,1) double
+                stop       (1,1) double
+                step       (1,1) double
+                constant_v (1,1) double = 0.0
             end
+            obj.pyobj.setPulseStep(MAT4200A.consts.PMUPulseMode.toPy(mode), double(start), double(stop), double(step), double(constant_v));
         end
 
         % ------------------------------------------------------------------
@@ -179,16 +194,16 @@ classdef PMU_RPM < handle
         %
         %   dual_sweep – logical; back-and-forth sweep (default false).
         %   constant_v – required when mode is AMPLITUDE or BASE.
-            pyMode = MAT4200A.consts.PMUPulseMode.toPy(mode);
-            if nargin < 5, dual_sweep = false; end
-            if nargin < 6
-                obj.pyobj.setPulseSweep(pyMode, double(start), double(stop), ...
-                                        double(step), logical(dual_sweep));
-            else
-                obj.pyobj.setPulseSweep(pyMode, double(start), double(stop), ...
-                                        double(step), logical(dual_sweep), ...
-                                        double(constant_v));
+            arguments
+                obj        (1,1) MAT4200A.PMU_RPM
+                mode       (1,1) MAT4200A.consts.PMUPulseMode
+                start      (1,1) double
+                stop       (1,1) double
+                step       (1,1) double
+                dual_sweep (1,1) logical = false
+                constant_v (1,1) double  = 0.0
             end
+            obj.pyobj.setPulseSweep(MAT4200A.consts.PMUPulseMode.toPy(mode), double(start), double(stop), double(step), logical(dual_sweep), double(constant_v));
         end
 
     end

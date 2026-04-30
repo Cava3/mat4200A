@@ -53,9 +53,7 @@ ki4200.runTest();
 ki4200.waitForTestEnd();
 
 %% Collect results as a Dependent
-result = ki4200.makeDependentFrom( ...
-    source.ih_measurement, ...
-    {source.vh_measurement, gate.vh_measurement});
+result = ki4200.makeDependentFrom(source.ih_measurement, {source.vh_measurement, gate.vh_measurement});
 
 ki4200.disconnect();
 fprintf('Done. (%.1fs)\n', toc(t_start));
@@ -70,9 +68,7 @@ figure;
 hold on;
 for i = 1 : numel(vgt_values)
     % result{vgt_values(i), :} selects the row by physical gate voltage value.
-    plot(vsrc_values, result{vgt_values(i), :}, ...
-        'Color', colors{mod(i-1, numel(colors)) + 1}, ...
-        'DisplayName', sprintf('Gate V = %.2f V', vgt_values(i)));
+    plot(vsrc_values, result{vgt_values(i), :}, 'Color', colors{mod(i-1, numel(colors)) + 1}, 'DisplayName', sprintf('Gate V = %.2f V', vgt_values(i)));
 end
 hold off;
 xlabel('Source Voltage (V)');

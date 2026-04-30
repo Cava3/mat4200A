@@ -63,6 +63,10 @@ classdef Measurement < handle
         %
         %   result = getResultAt(index) returns a char string with the raw
         %   KXCI response at the given 1-based index.
+            arguments
+                obj   (1,1) MAT4200A.Measurement
+                index (1,1) double
+            end
             result = char(obj.pyobj.getResultAt(int32(index)));
         end
 
@@ -71,6 +75,10 @@ classdef Measurement < handle
         % isResultValid  Return true if value is a valid (non-zero) numeric string.
         %
         %   valid = isResultValid(value) accepts a char or string VALUE.
+            arguments
+                obj   (1,1) MAT4200A.Measurement
+                value (1,1) double
+            end
             valid = logical(obj.pyobj.isResultValid(char(value)));
         end
 
@@ -84,14 +92,17 @@ classdef Measurement < handle
         %   results = getResultSerie(precedent_dimensions) where
         %   precedent_dimensions is a cell array of Measurement objects whose
         %   loops are nested inside this one (used to compute the stride).
-            if nargin < 2 || isempty(precedent_dimensions)
+            arguments
+                obj                   (1,1) MAT4200A.Measurement
+                precedent_dimensions         = {}
+            end
+            if isempty(precedent_dimensions)
                 pyResult = obj.pyobj.getResultSerie();
             else
                 if ~iscell(precedent_dimensions)
                     precedent_dimensions = {precedent_dimensions};
                 end
-                pyInner = cellfun(@(m) m.pyobj, precedent_dimensions, ...
-                                  'UniformOutput', false);
+                pyInner = cellfun(@(m) m.pyobj, precedent_dimensions, 'UniformOutput', false);
                 pyResult = obj.pyobj.getResultSerie(py.list(pyInner));
             end
             results = pyList2double_(pyResult);
@@ -102,12 +113,18 @@ classdef Measurement < handle
         % getAllResults  Retrieve all measurement values from the instrument buffer.
         %
         %   results = getAllResults() returns a 1×N double row vector.
+            arguments
+                obj (1,1) MAT4200A.Measurement
+            end
             results = pyList2double_(obj.pyobj.getAllResults());
         end
 
         % ------------------------------------------------------------------
         function s = toStr(obj)
         % toStr  Return a short human-readable description of this measurement.
+            arguments
+                obj (1,1) MAT4200A.Measurement
+            end
             s = char(py.str(obj.pyobj));
         end
 

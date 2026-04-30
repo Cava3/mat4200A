@@ -131,8 +131,7 @@ classdef KI4200A < handle
             end
             checkPythonEnv_();
             if isempty(which('Dependent'))
-                warning('MAT4200A:KI4200A:dependentNotFound', ...
-                        'Dependent class is not on the MATLAB path. makeDependentFrom() will not work until Dependent.m is accessible.');
+                warning('MAT4200A:KI4200A:dependentNotFound', 'Dependent class is not on the MATLAB path. makeDependentFrom() will not work until Dependent.m is accessible.');
             end
             mod          = pyimport_('py4200A');
             obj.pyobj    = mod.KI4200A(char(instrument_resource_string));
@@ -147,6 +146,9 @@ classdef KI4200A < handle
         % scan  Re-scan for equipped modules and refresh all board lists.
         %
         %   Repopulates id, l_equipment, l_smus, l_rpms, and all_measurements.
+            arguments
+                obj (1,1) MAT4200A.KI4200A
+            end
             obj.pyobj.scan();
             obj.syncState_();
         end
@@ -157,18 +159,27 @@ classdef KI4200A < handle
         %
         %   Clears the buffer and all errors, resets all instruments, and
         %   deactivates all SMU channels.
+            arguments
+                obj (1,1) MAT4200A.KI4200A
+            end
             obj.pyobj.reset();
         end
 
         % ------------------------------------------------------------------
         function disconnect(obj)
         % disconnect  Close the connection to the instrument.
+            arguments
+                obj (1,1) MAT4200A.KI4200A
+            end
             obj.pyobj.disconnect();
         end
 
         % ------------------------------------------------------------------
         function reconnect(obj)
         % reconnect  Reconnect after a previous disconnect.
+            arguments
+                obj (1,1) MAT4200A.KI4200A
+            end
             obj.pyobj.reconnect();
             obj.syncState_();
         end
@@ -178,6 +189,9 @@ classdef KI4200A < handle
         % getError  Query and return the last KXCI error message.
         %
         %   err = getError()  returns a char string.
+            arguments
+                obj (1,1) MAT4200A.KI4200A
+            end
             err = char(obj.pyobj.getError());
         end
 
@@ -187,6 +201,10 @@ classdef KI4200A < handle
         %
         %   write(command)  does not read a response.
         %   On TCP/IP connections this is automatically redirected to query.
+            arguments
+                obj     (1,1) MAT4200A.KI4200A
+                command (1,:) char
+            end
             obj.pyobj.write(char(command));
         end
 
@@ -195,6 +213,10 @@ classdef KI4200A < handle
         % query  Send a KXCI command and return the response.
         %
         %   response = query(command)  returns a char string.
+            arguments
+                obj     (1,1) MAT4200A.KI4200A
+                command (1,:) char
+            end
             response = char(obj.pyobj.query(char(command)));
         end
 
@@ -208,16 +230,19 @@ classdef KI4200A < handle
         %   runTest()
         %   runTest(clear_buffer)  – logical; clear result buffer first (default true).
         %                            Only applies in SMU mode.
-            if nargin < 2
-                obj.pyobj.runTest();
-            else
-                obj.pyobj.runTest(logical(clear_buffer));
+            arguments
+                obj          (1,1) MAT4200A.KI4200A
+                clear_buffer (1,1) logical = true
             end
+            obj.pyobj.runTest(logical(clear_buffer));
         end
 
         % ------------------------------------------------------------------
         function abortTest(obj)
         % abortTest  Abort the currently running test.
+            arguments
+                obj (1,1) MAT4200A.KI4200A
+            end
             obj.pyobj.abortTest();
         end
 
@@ -226,6 +251,9 @@ classdef KI4200A < handle
         % initPMU  Initialise the PMU in standard pulse mode.
         %
         %   Must be called before any PMU channel configuration.
+            arguments
+                obj (1,1) MAT4200A.KI4200A
+            end
             obj.pyobj.initPMU();
         end
 
@@ -234,6 +262,9 @@ classdef KI4200A < handle
         % isTestRunning  Return true if a test is currently executing.
         %
         %   running = isTestRunning()
+            arguments
+                obj (1,1) MAT4200A.KI4200A
+            end
             running = logical(obj.pyobj.isTestRunning());
         end
 
@@ -243,6 +274,9 @@ classdef KI4200A < handle
         %
         %   On GPIB connections with NI-VISA, this uses the hardware SRQ line.
         %   On all other connections it polls isTestRunning().
+            arguments
+                obj (1,1) MAT4200A.KI4200A
+            end
             obj.pyobj.waitForTestEnd();
         end
 
@@ -257,6 +291,10 @@ classdef KI4200A < handle
         %
         %   Returns a MAT4200A.SMU handle.
         %   Raises an error if no SMU was found at that slot.
+            arguments
+                obj  (1,1) MAT4200A.KI4200A
+                slot (1,1) double
+            end
             arguments (Output)
                 smu (1,1) MAT4200A.SMU
             end
@@ -272,6 +310,10 @@ classdef KI4200A < handle
         %
         %   Slot numbering: PMU1RPM1-1 → slot 11, PMU1RPM1-2 → slot 12, etc.
         %   Returns a MAT4200A.PMU_RPM handle.
+            arguments
+                obj  (1,1) MAT4200A.KI4200A
+                slot (1,1) double
+            end
             arguments (Output)
                 rpm (1,1) MAT4200A.PMU_RPM
             end
@@ -296,6 +338,11 @@ classdef KI4200A < handle
         %   shaped as [outermost_param × ... × innermost_sweep].
         %
         %   The Dependent class must be on the MATLAB path (run setup.m).
+            arguments
+                obj    (1,1) MAT4200A.KI4200A
+                data   (1,1) MAT4200A.Measurement
+                params
+            end
             if ~iscell(params)
                 params = {params};
             end
@@ -417,23 +464,19 @@ classdef KI4200A < handle
 
             % SMU list
             pySmus = cell(inst.l_smus);
-            obj.l_smus = cellfun(@(s) MAT4200A.SMU(s), pySmus, ...
-                                 'UniformOutput', false);
+            obj.l_smus = cellfun(@(s) MAT4200A.SMU(s), pySmus, 'UniformOutput', false);
 
             % RPM list
             pyRpms = cell(inst.l_rpms);
-            obj.l_rpms = cellfun(@(r) MAT4200A.PMU_RPM(r), pyRpms, ...
-                                  'UniformOutput', false);
+            obj.l_rpms = cellfun(@(r) MAT4200A.PMU_RPM(r), pyRpms, 'UniformOutput', false);
 
             % Full equipment list (mixed board types)
             pyEquip     = cell(inst.l_equipment);
-            obj.l_equipment = cellfun(@(b) obj.wrapBoard_(b), pyEquip, ...
-                                      'UniformOutput', false);
+            obj.l_equipment = cellfun(@(b) obj.wrapBoard_(b), pyEquip, 'UniformOutput', false);
 
             % Flat measurement list
             pyMeas = cell(inst.all_measurements);
-            obj.all_measurements = cellfun(@(m) MAT4200A.Measurement(m), pyMeas, ...
-                                           'UniformOutput', false);
+            obj.all_measurements = cellfun(@(m) MAT4200A.Measurement(m), pyMeas, 'UniformOutput', false);
         end
 
         % ------------------------------------------------------------------

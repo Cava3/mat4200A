@@ -75,6 +75,9 @@ classdef RT_KI4200A < handle
         % userMode  Re-enter User Mode (US command).
         %
         %   Call this if a page-select command has temporarily left User Mode.
+            arguments
+                obj (1,1) MAT4200A.RT_KI4200A
+            end
             obj.pyobj.userMode();
         end
 
@@ -84,12 +87,18 @@ classdef RT_KI4200A < handle
         %
         %   Clears buffer and errors, resets all instruments, deactivates
         %   SMU channels, restores RPMs to SMU mode, and re-enters User Mode.
+            arguments
+                obj (1,1) MAT4200A.RT_KI4200A
+            end
             obj.pyobj.reset();
         end
 
         % ------------------------------------------------------------------
         function disconnect(obj)
         % disconnect  Restore RPMs to PMU mode and close the connection.
+            arguments
+                obj (1,1) MAT4200A.RT_KI4200A
+            end
             obj.pyobj.disconnect();
         end
 
@@ -101,6 +110,10 @@ classdef RT_KI4200A < handle
         %
         %   Returns a MAT4200A.RT_SMU handle.
         %   Raises an error if no SMU was found at that slot.
+            arguments
+                obj  (1,1) MAT4200A.RT_KI4200A
+                slot (1,1) double
+            end
             arguments (Output)
                 smu (1,1) MAT4200A.RT_SMU
             end
@@ -148,12 +161,10 @@ classdef RT_KI4200A < handle
         function syncState_(obj)
         % syncState_  Populate l_smus and l_rpms from Python state.
             pySmus = cell(obj.pyobj.l_smus);
-            obj.l_smus = cellfun(@(s) MAT4200A.RT_SMU(s), pySmus, ...
-                                 'UniformOutput', false);
+            obj.l_smus = cellfun(@(s) MAT4200A.RT_SMU(s), pySmus, 'UniformOutput', false);
 
             pyRpms = cell(obj.pyobj.l_rpms);
-            obj.l_rpms = cellfun(@(r) MAT4200A.RT_PMU_RPM(r), pyRpms, ...
-                                  'UniformOutput', false);
+            obj.l_rpms = cellfun(@(r) MAT4200A.RT_PMU_RPM(r), pyRpms, 'UniformOutput', false);
         end
 
     end
