@@ -1,8 +1,8 @@
 % MAT4200A  MATLAB toolbox for the Keithley 4200A-SCS Parameter Analyzer.
 % Version 1.0.0   (requires py4200A >= 0.2.2 and MATLAB R2019b or newer)
 %
-% All classes live in the MAT4200A package.  Use setup.m once per session:
-%   run('setup.m')
+% All classes live in the MAT4200A package.  Install once via the Add-On
+% Manager (MAT4200A.mltbx) — no setup call required.
 %
 % ── Main instrument classes ───────────────────────────────────────────────
 %   MAT4200A.KI4200A       - Full sweep-mode instrument controller.

@@ -63,6 +63,7 @@ classdef RT_KI4200A < handle
         %
         %   On construction the object scans for equipped boards, switches
         %   all RPMs to SMU mode, and enters User Mode automatically.
+            checkPythonEnv_();
             mod       = pyimport_('py4200A.src.realtime.RT_KI4200A');
             obj.pyobj = mod.RT_KI4200A(char(instrument_resource_string));
             obj.syncState_();

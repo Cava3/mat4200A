@@ -1,0 +1,49 @@
+<deployment-project plugin="plugin.toolbox" version="1.0">
+  <configuration build-checksum="" file="${PROJECT_ROOT}/MAT4200A.prj" location="${PROJECT_ROOT}" name="MAT4200A" target="target.toolbox" target-name="Toolbox">
+    <param.appname>MAT4200A</param.appname>
+    <param.authnamewatermark>Roucool</param.authnamewatermark>
+    <param.email>lucastag77@gmail.com</param.email>
+    <param.company></param.company>
+    <param.summary>MATLAB wrapper for py4200A — Keithley 4200A-SCS Semiconductor Characterization System.</param.summary>
+    <param.description>MAT4200A provides a fully-native MATLAB interface to the Keithley 4200A-SCS via the py4200A Python back-end. No py. prefix required. Requires Python 3.10–3.12 with py4200a installed (pip install py4200a).</param.description>
+    <param.screenshot></param.screenshot>
+    <param.version>1.0.0</param.version>
+    <param.output>${PROJECT_ROOT}</param.output>
+    <param.products.name />
+    <param.products.id />
+    <param.products.version />
+    <param.platforms />
+    <param.guid>a3b47c8d-2e1f-4a96-b5c3-9d0e2f4a8b71</param.guid>
+    <param.exclude.filters>**/.git
+**/.gitignore
+*.prj
+</param.exclude.filters>
+    <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
+    <param.resources />
+    <param.images />
+    <param.apps />
+    <param.docs />
+    <param.matlabpath.excludes />
+    <param.javaclasspath.excludes />
+    <param.exported.on.package>false</param.exported.on.package>
+    <param.required.addons />
+    <param.matlab.project.id />
+    <param.matlab.project.name />
+    <param.release.current.only>false</param.release.current.only>
+    <param.compatibledivisions>desktop,edu</param.compatibledivisions>
+    <param.webstatus>0</param.webstatus>
+    <param.build.type>toolbox</param.build.type>
+  </configuration>
+  <fileset.root>
+    <file>${PROJECT_ROOT}/+MAT4200A</file>
+    <file>${PROJECT_ROOT}/Contents.m</file>
+    <file>${PROJECT_ROOT}/demos.xml</file>
+    <file>${PROJECT_ROOT}/examples</file>
+    <file>${PROJECT_ROOT}/info.xml</file>
+    <file>${PROJECT_ROOT}/LICENSE</file>
+    <file>${PROJECT_ROOT}/README.md</file>
+    <file>${PROJECT_ROOT}/setup.m</file>
+  </fileset.root>
+  <fileset.depfun />
+  <fileset.package />
+</deployment-project>

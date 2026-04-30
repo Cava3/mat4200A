@@ -129,6 +129,11 @@ classdef KI4200A < handle
             if nargin == 0
                 return
             end
+            checkPythonEnv_();
+            if isempty(which('Dependent'))
+                warning('MAT4200A:KI4200A:dependentNotFound', ...
+                        'Dependent class is not on the MATLAB path. makeDependentFrom() will not work until Dependent.m is accessible.');
+            end
             mod          = pyimport_('py4200A');
             obj.pyobj    = mod.KI4200A(char(instrument_resource_string));
             obj.syncState_();

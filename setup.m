@@ -1,7 +1,11 @@
-%SETUP  Configure MATLAB to use the MAT4200A toolbox.
+%SETUP  Optional diagnostic script for the MAT4200A toolbox.
 %
-%   Run this script once per MATLAB session (or add it to your startup.m)
-%   before using the MAT4200A package.
+%   When the toolbox is installed via the Add-On Manager (MAT4200A.mltbx)
+%   this script is NOT required — the constructor validates the Python
+%   environment automatically on first use.
+%
+%   Run this script manually to diagnose Python setup issues, or if you are
+%   using the toolbox directly from source (without installing the .mltbx).
 %
 %   What this script does:
 %     1. Adds the MAT4200A toolbox folder to the MATLAB path.
