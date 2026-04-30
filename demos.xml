@@ -21,8 +21,7 @@
 <demos
     name="MAT4200A"
     type="toolbox"
-    label="MAT4200A — Keithley 4200A-SCS"
-    helpdir="doc">
+    label="MAT4200A — Keithley 4200A-SCS">
 
     <demo
         name="MOSFET Gate — Programmed SMU"
